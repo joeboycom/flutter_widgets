@@ -73,3 +73,28 @@ Dependencies used:
 - `file_picker` - For selecting PDF files
 - `path_provider` - For file storage
 - `http` - For downloading sample PDF and uploading signed PDF
+
+### Interactive PDF Signature Demo
+Located in `/lib/demos/signature_pad/interactive_signature_demo.dart`
+
+Features:
+- Full PDF preview using Syncfusion PDF Viewer
+- Interactive signature areas with visual indicators
+- Click on signature areas to open signature pad overlay
+- Generate sample contract with predefined signature fields
+- Support for multiple signature areas per page
+- Signature saved to exact clicked position
+- Download IRS Form W-9 as alternative sample
+
+Key components:
+- `SignatureArea` class - Defines clickable signature regions
+- PDF generator in `/lib/demos/signature_pad/pdf_generator.dart`
+- Modal signature pad interface
+- Real-time PDF update after signing
+
+Dependencies used:
+- `syncfusion_flutter_pdfviewer` - For PDF viewing and interaction
+- `syncfusion_flutter_signaturepad` - For signature drawing
+- `syncfusion_flutter_pdf` - For PDF manipulation
+- `file_picker` - For selecting PDF files
+- `http` - For downloading sample PDFs
