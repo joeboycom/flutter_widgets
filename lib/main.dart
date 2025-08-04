@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'demos/signature_pad/signature_pad_demo.dart';
 import 'demos/signature_pad/interactive_signature_demo.dart';
+import 'demos/signature_pad/interactive_signature_demo_v2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +40,12 @@ class HomePage extends StatelessWidget {
         subtitle: 'View PDF and click to sign at specific areas',
         icon: Icons.touch_app,
         route: const InteractiveSignatureDemo(),
+      ),
+      DemoItem(
+        title: 'Interactive PDF Signature V2',
+        subtitle: 'Improved version with visible signature areas',
+        icon: Icons.draw,
+        route: const InteractiveSignatureDemoV2(),
       ),
     ];
 
