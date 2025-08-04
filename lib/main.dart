@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'demos/signature_pad/signature_pad_demo.dart';
 import 'demos/signature_pad/interactive_signature_demo.dart';
 import 'demos/signature_pad/interactive_signature_demo_v2.dart';
+import 'demos/signature_pad/interactive_pdf_with_signature.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,6 +47,12 @@ class HomePage extends StatelessWidget {
         subtitle: 'Improved version with visible signature areas',
         icon: Icons.draw,
         route: const InteractiveSignatureDemoV2(),
+      ),
+      DemoItem(
+        title: 'PDF with Signature Buttons',
+        subtitle: 'Simple approach with signature buttons',
+        icon: Icons.approval,
+        route: const InteractivePdfWithSignature(),
       ),
     ];
 
