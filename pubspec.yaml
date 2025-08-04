@@ -38,6 +38,7 @@ dependencies:
   # Syncfusion packages for signature and PDF
   syncfusion_flutter_signaturepad: ^28.1.33
   syncfusion_flutter_pdf: ^28.1.33
+  syncfusion_flutter_pdfviewer: ^28.1.33
   
   # File handling packages
   file_picker: ^8.1.6
