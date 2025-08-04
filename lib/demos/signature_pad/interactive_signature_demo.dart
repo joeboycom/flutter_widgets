@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'pdf_generator.dart';
 
 class InteractiveSignatureDemo extends StatefulWidget {
   const InteractiveSignatureDemo({super.key});
@@ -25,23 +26,23 @@ class _InteractiveSignatureDemoState extends State<InteractiveSignatureDemo> {
   bool _isLoading = false;
   bool _showSignaturePad = false;
   
-  // Signature area coordinates (you can adjust these or make them dynamic)
+  // Signature area coordinates matching the contract PDF
   final List<SignatureArea> _signatureAreas = [
     SignatureArea(
       page: 1,
-      x: 100,
-      y: 500,
+      x: 50,
+      y: 480,
       width: 200,
       height: 80,
-      label: 'Signature 1',
+      label: 'Party A',
     ),
     SignatureArea(
       page: 1,
-      x: 350,
-      y: 500,
+      x: 300,
+      y: 480,
       width: 200,
       height: 80,
-      label: 'Signature 2',
+      label: 'Party B',
     ),
   ];
   
@@ -66,8 +67,10 @@ class _InteractiveSignatureDemoState extends State<InteractiveSignatureDemo> {
             children: [
               Container(
                 padding: const EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  alignment: WrapAlignment.center,
                   children: [
                     ElevatedButton.icon(
                       onPressed: _pickPDF,
@@ -75,9 +78,14 @@ class _InteractiveSignatureDemoState extends State<InteractiveSignatureDemo> {
                       label: const Text('Select PDF'),
                     ),
                     ElevatedButton.icon(
+                      onPressed: _generateContract,
+                      icon: const Icon(Icons.description),
+                      label: const Text('Generate Contract'),
+                    ),
+                    ElevatedButton.icon(
                       onPressed: _downloadSamplePDF,
                       icon: const Icon(Icons.download),
-                      label: const Text('Download Sample'),
+                      label: const Text('Download IRS Form'),
                     ),
                   ],
                 ),
@@ -333,6 +341,27 @@ class _InteractiveSignatureDemoState extends State<InteractiveSignatureDemo> {
     }
   }
 
+  Future<void> _generateContract() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final bytes = await PdfGenerator.generateSampleContract();
+      setState(() {
+        _pdfBytes = bytes;
+        _fileName = 'sample_contract.pdf';
+        _isLoading = false;
+      });
+      _showSnackBar('Contract generated successfully');
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      _showSnackBar('Error generating contract: $e');
+    }
+  }
+
   Future<void> _downloadSamplePDF() async {
     setState(() {
       _isLoading = true;
@@ -350,7 +379,7 @@ class _InteractiveSignatureDemoState extends State<InteractiveSignatureDemo> {
           _fileName = 'IRS_Form_W9.pdf';
           _isLoading = false;
         });
-        _showSnackBar('Sample PDF downloaded successfully');
+        _showSnackBar('IRS form downloaded successfully');
       } else {
         throw Exception('Failed to download PDF');
       }
@@ -358,7 +387,7 @@ class _InteractiveSignatureDemoState extends State<InteractiveSignatureDemo> {
       setState(() {
         _isLoading = false;
       });
-      _showSnackBar('Error downloading sample PDF: $e');
+      _showSnackBar('Error downloading PDF: $e');
     }
   }
 
