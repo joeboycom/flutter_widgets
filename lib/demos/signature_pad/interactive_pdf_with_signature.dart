@@ -8,6 +8,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'pdf_generator.dart';
+import 'pdf_signature_debugger.dart';
 
 class InteractivePdfWithSignature extends StatefulWidget {
   const InteractivePdfWithSignature({super.key});
@@ -79,6 +80,11 @@ class _InteractivePdfWithSignatureState extends State<InteractivePdfWithSignatur
                           onPressed: _generateContract,
                           icon: const Icon(Icons.description),
                           label: const Text('Generate Contract'),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: _generateDebugContract,
+                          icon: const Icon(Icons.bug_report),
+                          label: const Text('Debug PDF'),
                         ),
                       ],
                     ),
@@ -269,20 +275,28 @@ class _InteractivePdfWithSignatureState extends State<InteractivePdfWithSignatur
       // Create bitmap from signature
       final PdfBitmap bitmap = PdfBitmap(signatureBytes);
       
-      // Define signature positions based on the position
-      double x, y;
+      // Define signature positions
+      // Using the exact positions from our PDF generator
+      double x, y, width, height;
+      
       if (_currentSignaturePosition == 'Party A') {
-        x = 50;
-        y = 480;
+        // Position inside the Party A signature box with padding
+        x = 55;  // 50 + 5 padding
+        y = 485;  // 480 + 5 padding
+        width = 190;  // 200 - 10 padding
+        height = 70;  // 80 - 10 padding
       } else {
-        x = 300;
-        y = 480;
+        // Position inside the Party B signature box with padding
+        x = 305;  // 300 + 5 padding
+        y = 485;  // 480 + 5 padding
+        width = 190;  // 200 - 10 padding
+        height = 70;  // 80 - 10 padding
       }
       
       // Draw signature on PDF
       page.graphics.drawImage(
         bitmap,
-        Rect.fromLTWH(x, y, 200, 80),
+        Rect.fromLTWH(x, y, width, height),
       );
       
       // Save the modified PDF
@@ -384,6 +398,28 @@ class _InteractivePdfWithSignatureState extends State<InteractivePdfWithSignatur
         _isLoading = false;
       });
       _showSnackBar('Error generating contract: $e');
+    }
+  }
+
+  Future<void> _generateDebugContract() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final bytes = await PdfSignatureDebugger.generateDebugContract();
+      setState(() {
+        _originalPdfBytes = Uint8List.fromList(bytes);
+        _currentPdfBytes = Uint8List.fromList(bytes);
+        _fileName = 'debug_contract.pdf';
+        _isLoading = false;
+      });
+      _showSnackBar('Debug PDF generated - check coordinates');
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      _showSnackBar('Error generating debug PDF: $e');
     }
   }
 
