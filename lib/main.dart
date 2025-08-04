@@ -3,6 +3,8 @@ import 'demos/signature_pad/signature_pad_demo.dart';
 import 'demos/signature_pad/interactive_signature_demo.dart';
 import 'demos/signature_pad/interactive_signature_demo_v2.dart';
 import 'demos/signature_pad/interactive_pdf_with_signature.dart';
+import 'demos/signature_pad/pdf_coordinate_test.dart';
+import 'demos/signature_pad/simple_pdf_test.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,6 +55,18 @@ class HomePage extends StatelessWidget {
         subtitle: 'Simple approach with signature buttons',
         icon: Icons.approval,
         route: const InteractivePdfWithSignature(),
+      ),
+      DemoItem(
+        title: 'PDF Coordinate Test',
+        subtitle: 'Test tool to find correct signature positions',
+        icon: Icons.grid_on,
+        route: const PdfCoordinateTest(),
+      ),
+      DemoItem(
+        title: 'Simple PDF Test',
+        subtitle: 'Visual test of PDF coordinate system',
+        icon: Icons.crop_square,
+        route: const SimplePdfTest(),
       ),
     ];
 

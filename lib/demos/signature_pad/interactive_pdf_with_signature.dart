@@ -276,22 +276,31 @@ class _InteractivePdfWithSignatureState extends State<InteractivePdfWithSignatur
       final PdfBitmap bitmap = PdfBitmap(signatureBytes);
       
       // Define signature positions
-      // Using the exact positions from our PDF generator
+      // Get page height to understand coordinate system
+      final pageHeight = page.getClientSize().height;
       double x, y, width, height;
       
+      // In Syncfusion PDF, Y=0 is at the top of the page
+      // The signature boxes in our contract are at Y=480 from the top
+      
       if (_currentSignaturePosition == 'Party A') {
-        // Position inside the Party A signature box with padding
+        // Party A signature box: x=50, y=480, width=200, height=80
         x = 55;  // 50 + 5 padding
-        y = 485;  // 480 + 5 padding
+        y = 485;  // 480 + 5 padding from top
         width = 190;  // 200 - 10 padding
         height = 70;  // 80 - 10 padding
       } else {
-        // Position inside the Party B signature box with padding
+        // Party B signature box: x=300, y=480, width=200, height=80
         x = 305;  // 300 + 5 padding
-        y = 485;  // 480 + 5 padding
+        y = 485;  // 480 + 5 padding from top
         width = 190;  // 200 - 10 padding
         height = 70;  // 80 - 10 padding
       }
+      
+      // Store debug info for display
+      final debugInfo = 'Position: $_currentSignaturePosition, '
+          'x=$x, y=$y, w=$width, h=$height, '
+          'Page Height: $pageHeight';
       
       // Draw signature on PDF
       page.graphics.drawImage(
