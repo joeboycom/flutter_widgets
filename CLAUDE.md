@@ -35,7 +35,9 @@ Currently uses basic `setState()` for state management. The main stateful widget
 - `setState()` triggers UI rebuilds
 
 ### Project Structure
-- `/lib/main.dart` - Entry point containing MyApp root widget and MyHomePage
+- `/lib/main.dart` - Entry point containing MyApp root widget and HomePage with demos list
+- `/lib/demos/` - Directory containing all widget demo implementations
+- `/lib/demos/signature_pad/` - Syncfusion signature pad demo for PDF signing
 - `/test/` - Widget and unit tests
 - `/android/`, `/ios/`, `/web/`, `/linux/`, `/windows/`, `/macos/` - Platform-specific code
 - `pubspec.yaml` - Package configuration and dependencies
@@ -51,3 +53,23 @@ Uses `flutter_test` package with:
 - `testWidgets()` for widget testing
 - `WidgetTester` for UI interaction simulation
 - `find` and `expect` for assertions
+
+## Implemented Widget Demos
+
+### Syncfusion Signature Pad Demo
+Located in `/lib/demos/signature_pad/signature_pad_demo.dart`
+
+Features:
+- Select PDF from device using file picker
+- Download sample PDF from web
+- Draw signature using Syncfusion SignaturePad
+- Save signature to PDF at specified location (100, 500, 200x80)
+- Upload signed PDF to server
+- Clear signature functionality
+
+Dependencies used:
+- `syncfusion_flutter_signaturepad` - For signature drawing
+- `syncfusion_flutter_pdf` - For PDF manipulation
+- `file_picker` - For selecting PDF files
+- `path_provider` - For file storage
+- `http` - For downloading sample PDF and uploading signed PDF
